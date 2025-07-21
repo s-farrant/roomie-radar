@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        {% now "Y-m-d" as today_date %}
+        {% load tz %}
+        <link rel="stylesheet" href="{% static 'main/style.css' %}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div>
+            {% for roomie in roomies %}
+                <div class="roomie-entry">
+                    <div>
+                        {{ roomie.name }}
+                    </div>
+                    <div class="status {% if roomie.status %}at-home{% else %}out{% endif %}">
+                        {% if roomie.status %}HOME{% else %}OUT{% endif %}
+                    </div>
+                    <div class="update-time">
+                        Since:
+                         {% if roomie.updated_at|localtime|date:"Y-m-d" != today_date %}
+                            {{ roomie.updated_at|localtime|date:"j M" }}
+                        {% endif %}
+                        {{ roomie.updated_at|localtime|date:"H:i" }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>
